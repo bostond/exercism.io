@@ -1,7 +1,7 @@
 function anagram(word) {
 
-    var lcWord = word.toLowerCase();
-    var wordCharacters= toSortedCharacterArray(lcWord);
+    var wordRegex = new RegExp("^" + word + "$", "i");
+    var sortedLowercaseWord = toSortedLowercase(word);
 
     var isArray = Array.isArray || function(obj) {
         return ObjProto.toString.call(obj) === '[object Array]';
@@ -42,39 +42,15 @@ function anagram(word) {
     }
 
     function isAnagram(possibleAnagram) {
-        var lcPossibleAnagram = possibleAnagram.toLowerCase();
-
-        if (! isSubstringCandidate(lcPossibleAnagram, lcWord)) {
+        if (wordRegex.test(possibleAnagram)) {
             return false;
         }
 
-        // sort the possible anagram alphabetically, and then compare to the base word,
-        // which has also been sorted alphabetically, letter by letter.
-        var lcPossibleAnagramArray = toSortedCharacterArray(lcPossibleAnagram);
-        var match = true;
-        lcPossibleAnagramArray.forEach(function(lcPossibleAnagramElement, index, array) {
-            if ((!match) || wordCharacters[index] !== lcPossibleAnagramElement) {
-                match = false;
-            }
-        });
-
-        return match;
+        return (toSortedLowercase(possibleAnagram) === sortedLowercaseWord);
     }
 
-    function toSortedCharacterArray(obj) {
-        return obj.split("").sort();
-    }
-
-    // if the substring provided is equal to the mainstring being compared to, or if the substring is longer
-    // the mainstring, then the substring is not a candidate to be an anagram.
-    function isSubstringCandidate(substring, mainstring) {
-        if (substring.length != mainstring.length) {
-            return false;
-        } else if (substring.length === mainstring.length && substring === mainstring) {
-            return false;
-        } else {
-            return true;
-        }
+    function toSortedLowercase(string) {
+        return string.toLowerCase().split("").sort().join("");
     }
 
     function isString(obj) {
