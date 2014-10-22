@@ -40,8 +40,9 @@ function Beer() {
         },
 
         verse: function (verseNumber) {
+            var bottleCount = this.printBottleCount(verseNumber);
             return String.format("{0} of beer on the wall, {1} of beer.\n{2}, {3} of beer on the wall.\n",
-                this.printBottleCount(verseNumber),this.printBottleCount(verseNumber).toLowerCase(),
+                bottleCount, bottleCount.toLowerCase(),
                 this.direction(verseNumber), this.printBottleCount(this.decrement(verseNumber)).toLowerCase()
             );
         },
