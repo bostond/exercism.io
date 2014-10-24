@@ -1,5 +1,9 @@
 function nucleotide(seq) {
 
+    if (seq && ! /^[acgt]*$/i.test(seq)) {
+        throw "Invalid DNA sequence";
+    }
+
     var sequence = seq;
     var hash = calculate(sequence || "");
 
@@ -17,22 +21,17 @@ function nucleotide(seq) {
         if (! sequence) {
             return 0;
         }
-
         return hash[char] || 0;
-
     }
 
     return {
-
         count : function(seq) {
             return analyze(seq);
         },
         histogram : function() {
             return hash;
         }
-
     }
-
 }
 
 module.exports = nucleotide;
