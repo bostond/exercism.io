@@ -57,4 +57,34 @@ describe("School", function() {
     expect(school.roster()).toEqual(sorted);
   });
 
+  it("the students names in each grade in the roster are read-only", function() {
+    school.add("Jennifer", 4);
+    school.add("Kareem", 6);
+    school.add("Christopher", 4);
+    school.add("Kyle", 3);
+    sorted = {
+      3 : ["Kyle"],
+      4 : ["Christopher", "Jennifer"],
+      6 : ["Kareem"]
+    };
+    var roster = school.roster();
+
+    expect(school.roster()).toEqual(sorted);
+    roster[3] = undefined;
+    expect(school.roster()).toEqual(sorted);
+  });
+
+  it("grade returns the students in an array that is read-only", function() {
+    school.add("Franklin",5);
+    school.add("Bradley",5);
+    school.add("Jeff",1);
+    var expectedStudents = [ "Bradley", "Franklin" ];
+    var students = school.grade(5);
+    expect(students).toEqual(expectedStudents);
+
+    students.pop();
+    expect(school.grade(5)).toEqual(expectedStudents);
+
+  });
+
 });
