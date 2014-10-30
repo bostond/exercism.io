@@ -26,13 +26,13 @@ function SpaceAge(age) {
     }
 
     for (var attr in planets) {
-        var helper = function(attr) {
+        var onPlanet = function(attr) {
             return function() {
                 return format(calculate(age, planets[attr]));
             }
         }
         if (planets.hasOwnProperty(attr)) {
-            obj["on" + attr] = helper(attr);
+            obj["on" + attr] = onPlanet(attr);
         }
     }
 
