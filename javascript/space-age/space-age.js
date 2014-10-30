@@ -9,34 +9,33 @@ function SpaceAge(age) {
     function calculate(seconds, secondsInYear) {
         return (seconds / secondsInYear);
     }
-    
-    return {
-        seconds : age,
-        onMercury : function () {
-            return format(calculate(this.seconds, earthYearInSeconds * 0.2408467));
-        },
-        onEarth : function() {
-            return format(calculate(this.seconds, earthYearInSeconds));
-        },
-        onVenus : function () {
-            return format(calculate(this.seconds, earthYearInSeconds * 0.61519726));
-        },
-        onMars : function () {
-            return format(calculate(this.seconds, earthYearInSeconds * 1.8808158));
-        },
-        onJupiter : function () {
-            return format(calculate(this.seconds, earthYearInSeconds * 11.862615));
-        },
-        onSaturn : function () {
-            return format(calculate(this.seconds, earthYearInSeconds * 29.447498));
-        },
-        onUranus : function () {
-            return format(calculate(this.seconds, earthYearInSeconds * 84.016846));
-        },
-        onNeptune : function () {
-            return format(calculate(this.seconds, earthYearInSeconds * 164.79132));
+
+    var planets = {
+        Earth : earthYearInSeconds,
+        Mercury: earthYearInSeconds * 0.2408467,
+        Venus: earthYearInSeconds* 0.61519726,
+        Mars: earthYearInSeconds * 1.8808158,
+        Jupiter: earthYearInSeconds * 11.862615,
+        Saturn: earthYearInSeconds * 29.447498,
+        Uranus: earthYearInSeconds * 84.016846,
+        Neptune: earthYearInSeconds * 164.79132
+    }
+
+    var obj = {
+        seconds : age
+    }
+
+    for (var attr in planets) {
+        var helper = function(attr) {
+            return function() {
+                return format(calculate(age, planets[attr]));
+            }
+        }
+        if (planets.hasOwnProperty(attr)) {
+            obj["on" + attr] = helper(attr);
         }
     }
-}
 
+    return obj;
+}
 module.exports = SpaceAge;
