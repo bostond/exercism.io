@@ -1,12 +1,18 @@
 function Grains() {
     return {
-        square: function(squareNumber) {
-            if (squareNumber === 1) {
-                return 1;
-            } else {
-                return 2 * this.square(squareNumber - 1);
+        square: (function () {
+            // memoization optimization. JavaScript: The Good Parts, section 4.15.
+            var memo = [0, 1];
+            var squares = function(squareNumber) {
+                var result = memo[squareNumber];
+                if (typeof result !== 'number') {
+                    result = 2 * squares(squareNumber - 1);
+                    memo[squareNumber] = result;
+                }
+                return result;
             }
-        },
+            return squares;
+        }()),
         total : function() {
             var total = 0;
             for (var i = 1; i < 65; i++) {
