@@ -1,5 +1,4 @@
 function toRoman(number) {
-
     var numeralConversion = [
         { roman : 'M', numeric: 1000 },
         { roman : 'CM', numeric: 900 },
@@ -16,14 +15,18 @@ function toRoman(number) {
         { roman : 'I', numeric: 1}
     ];
 
-    var accumulator = "";
-    numeralConversion.forEach(function (conversion) {
-        while (number >= conversion.numeric) {
-            accumulator += conversion.roman;
-            number -= conversion.numeric;
+    var convert = function(stack, integer, accumulator) {
+        if (integer === 0) {
+            return accumulator;
+        } else {
+            if (integer >= stack[0].numeric) {
+                return convert(stack, integer - stack[0].numeric, accumulator + stack[0].roman);
+            } else {
+                return convert(stack.slice(1), integer, accumulator);
+            }
         }
-    });
+    };
 
-    return accumulator;
+    return convert(numeralConversion, number, "");
 }
 module.exports = toRoman;
