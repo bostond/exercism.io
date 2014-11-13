@@ -1,20 +1,20 @@
 var atbash = function() {
     return {
         encode: function(phrase) {
-            var count = 0;
-            var punctuation = [" ", ",", "."];
+            var punctuation = [" ", ",", ".", "!", "?", ";"];
 
-            return phrase.split("").map(function (element) {
-                if (punctuation.indexOf(element) !== -1) {
-                    return "";
-                }
-
+            return phrase.split("").filter(function (element) {
+                // do not encode spaces or punctuation.
+                return (punctuation.indexOf(element) === -1)
+            }).map(function (element, index) {
                 var charCode = element.toLowerCase().charCodeAt(0);
-                var encodedCharString = (count && count % 5 === 0) ? " ": "";
-                count++;
+                var encodedCharString = (index && index % 5 === 0) ? " ": "";
+
                 if (charCode >= 48 && charCode <= 57)  {
+                    // do not encode numbers
                     return encodedCharString + element;
                 } else {
+                    // encode everything else
                     return encodedCharString + String.fromCharCode(97 + (122 - element.toLowerCase().charCodeAt(0)));
                 }
 
