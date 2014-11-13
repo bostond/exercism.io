@@ -4,7 +4,7 @@ var atbash = function() {
             var punctuation = [" ", ",", ".", "!", "?", ";"];
 
             return phrase.split("").filter(function (element) {
-                // do not encode spaces or punctuation.
+                // do not include spaces or punctuation.
                 return (punctuation.indexOf(element) === -1)
             }).map(function (element, index) {
                 var charCode = element.toLowerCase().charCodeAt(0);
