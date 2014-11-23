@@ -27,9 +27,9 @@ var Luhn = function Luhn(digit) {
 Luhn.create = function(num) {
     var next = num * 10;
     var luhn = new Luhn(next);
-    while (! luhn.valid) {
-        luhn = new Luhn(++next);
-    }
+    var sum = luhn.checksum * 9;
+    next += (sum % 10);
+
     return next;
 }
 
